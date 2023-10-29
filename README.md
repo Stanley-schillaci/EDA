@@ -15,8 +15,10 @@
 - `py -m venv venv`
 - `source venv/bin/activate`
 - `pip install -r requirements.txt`
-### Clean data
-- Use `src.preprocessing` to clean data from [Amazon review](https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/
-)
-- Use `src.utils.load_*` to use your cleaned data
-- (Don't clink the data everytime....)
+### Make Preprocessing
+- `from src.utils import make_preprocess_data` 
+- to make preprocessing : `make_preprocess_data('Digital_Music')`
+- Use this function ony one time
+### Load Data
+- `from src.utils import load_data` 
+- to load data : `load_data('Digital_Music')`
