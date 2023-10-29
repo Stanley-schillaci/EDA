@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import lxml
 
-def load_data(path: str) -> pd.DataFrame:
+def load_review_data(path: str) -> pd.DataFrame:
     data = []
     with open(path, 'r') as f:
         for i, line in enumerate(f):
@@ -21,7 +21,6 @@ def load_metadata(path: str) -> pd.DataFrame:
         for l in f:
             data.append(json.loads(l.strip()))
     return pd.DataFrame.from_dict(data)
-
 
 def drop_col(df: pd.DataFrame, col: [str]) -> pd.DataFrame:
     df.drop(col, axis=1, inplace=True)
@@ -88,7 +87,7 @@ def cleanDescription(raw_description):
     return ' '.join(raw_description).strip()
 
 def preprocess_data(file_path: str) -> pd.DataFrame:
-    data = load_data(file_path)
+    data = load_review_data(file_path)
     data = drop_col(data, 
                     [
                         'reviewTime', 
@@ -143,7 +142,10 @@ def processing(review: pd.DataFrame, metadata: pd.DataFrame) -> (pd.DataFrame, p
 
     review = pd.merge(review, metadata, on='asin', how='left')
     review = drop_null(review, ['description', 'title'])
-    review = drop_col(review, metadata.columns.to_list())
+    meta_cols = metadata.columns.to_list()
+    meta_cols.remove('asin')
+    meta_cols.remove('title')
+    review = drop_col(review, meta_cols)
 
     return review, metadata
 
@@ -157,16 +159,16 @@ def save_files(review: pd.DataFrame,
 
 
 # Example of usage
-def main():
-    review_path = "./data/All_Beauty_tiny.json"
-    metadata_path = "./data/meta_All_Beauty_tiny.json"
+# def main():
+#     review_path = "./data/All_Beauty_tiny.json"
+#     metadata_path = "./data/meta_All_Beauty_tiny.json"
 
-    review = preprocess_data(review_path)
-    metadata = preprocess_metadata(metadata_path)
+#     review = preprocess_data(review_path)
+#     metadata = preprocess_metadata(metadata_path)
 
-    review, metadata = processing(review, metadata)
+#     review, metadata = processing(review, metadata)
 
-    save_files(review, metadata, './data_cleaned/reviews_cleaned.csv', './data_cleaned/metadata_cleaned.json')
+#     save_files(review, metadata, './data_cleaned/reviews_cleaned.csv', './data_cleaned/metadata_cleaned.json')
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
