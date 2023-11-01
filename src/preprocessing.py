@@ -151,12 +151,11 @@ def processing(review: pd.DataFrame, metadata: pd.DataFrame) -> (pd.DataFrame, p
 
 def save_files(review: pd.DataFrame,
                metadata: pd.DataFrame, 
-               review_path: str = 'cleaned_data/reviews_cleaned.csv',
-               metadata_path: str = 'cleaned_data/metadata_cleaned.json' ) -> None:
+               review_path: str = '../cleaned_data/reviews_cleaned.csv',
+               metadata_path: str = '../cleaned_data/metadata_cleaned.json' ) -> None:
     
     review.to_csv(review_path, index=False)
     metadata.to_json(metadata_path, orient='records', lines=True)
-
 
 # Example of usage
 # def main():

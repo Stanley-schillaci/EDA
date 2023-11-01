@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.preprocessing import preprocess_data, preprocess_metadata, processing, save_files
+from preprocessing import preprocess_data, preprocess_metadata, processing, save_files
 
 
 def load_reviews_csv(review_path: str) -> pd.DataFrame:
@@ -32,20 +32,20 @@ def load_metadata_json(metadata_path: str) -> pd.DataFrame:
 # Only one time
 # Usage : make_preprocess_data('Digital_Music')
 def make_preprocess_data(file_name: str):
-    review_path = "./data/" + file_name + ".json"
-    metadata_path = "./data/meta_" + file_name + ".json"
+    review_path = "../data/" + file_name + ".json"
+    metadata_path = "../data/meta_" + file_name + ".json"
 
     review = preprocess_data(review_path)
     metadata = preprocess_metadata(metadata_path)
 
     review, metadata = processing(review, metadata)
 
-    save_files(review, metadata, './data_cleaned/reviews_cleaned_' + file_name + '.csv', './data_cleaned/metadata_cleaned_' + file_name + '.json')
+    save_files(review, metadata, '../data_cleaned/reviews_cleaned_' + file_name + '.csv', '../data_cleaned/metadata_cleaned_' + file_name + '.json')
 
 # Usage : review, metadata = load_data('Digital_Music')
 def load_data(file_name: str) -> (pd.DataFrame, pd.DataFrame):
-    review_path = "./data_cleaned/reviews_cleaned_" + file_name + ".csv"
-    metadata_path = "./data_cleaned/metadata_cleaned_" + file_name + ".json"
+    review_path = "../data_cleaned/reviews_cleaned_" + file_name + ".csv"
+    metadata_path = "../data_cleaned/metadata_cleaned_" + file_name + ".json"
 
     review = load_reviews_csv(review_path)
     metadata = load_metadata_json(metadata_path)
